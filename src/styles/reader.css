@@ -1,0 +1,333 @@
+/* ---------- 阅读页骨架 ---------- */
+
+.reader {
+  position: fixed;
+  inset: 0;
+  background: var(--reader-bg);
+}
+
+.reader-stage {
+  position: relative;
+  height: 100%;
+}
+
+.reader-status {
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  color: var(--sub);
+}
+
+/* ---------- TXT 阅读区 ---------- */
+
+.txt-viewport {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.txt-content {
+  height: 100%;
+  box-sizing: border-box;
+  /* 水平 padding 必须与 txt-paginator.ts 的 PAD_H 一致 */
+  padding: 24px 16px calc(24px + env(safe-area-inset-bottom));
+  column-fill: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  text-align: justify;
+  font-family: Georgia, 'Noto Serif SC', 'Songti SC', SimSun, serif;
+  color: var(--reader-fg);
+  will-change: transform;
+  transition: transform 0.25s ease;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* ---------- EPUB 阅读区 ---------- */
+
+.epub-host {
+  position: absolute;
+  inset: 0;
+}
+
+.epub-host.hidden {
+  display: none;
+}
+
+/* ---------- 翻页交互层 ---------- */
+
+.reader-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* ---------- 顶栏 / 底栏 ---------- */
+
+.reader-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  background: var(--panel);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform 0.25s ease,
+    opacity 0.25s ease;
+}
+
+.reader-bar.top {
+  top: 0;
+  transform: translateY(-100%);
+  border-bottom: 1px solid var(--border);
+  padding-top: env(safe-area-inset-top);
+}
+
+.reader-bar.bottom {
+  bottom: 0;
+  transform: translateY(100%);
+  border-top: 1px solid var(--border);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.reader-bar.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.bar-inner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 48px;
+  padding: 0 12px;
+}
+
+.bar-back {
+  width: 32px;
+  height: 32px;
+  font-size: 24px;
+  line-height: 1;
+  color: var(--fg);
+}
+
+.bar-title {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 15px;
+}
+
+.bar-progress {
+  height: 2px;
+  background: var(--border);
+}
+
+.bar-progress span {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  transition: width 0.2s ease;
+}
+
+.bar-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 12px 0;
+  font-size: 12px;
+  color: var(--sub);
+}
+
+.bar-chapter {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-right: 12px;
+}
+
+.bar-actions {
+  display: flex;
+  padding: 4px 8px 8px;
+}
+
+.bar-actions button {
+  flex: 1;
+  height: 44px;
+  font-size: 14px;
+  color: var(--fg);
+  border-radius: 8px;
+}
+
+.bar-actions button:active {
+  background: var(--bg);
+}
+
+/* ---------- 底部弹层（目录 / 设置） ---------- */
+
+.sheet-mask {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  align-items: flex-end;
+  background: var(--mask);
+}
+
+.sheet {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-height: 72%;
+  background: var(--panel);
+  border-radius: 16px 16px 0 0;
+  padding-bottom: env(safe-area-inset-bottom);
+  animation: sheet-up 0.25s ease;
+}
+
+@keyframes sheet-up {
+  from {
+    transform: translateY(30%);
+    opacity: 0.4;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.sheet-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.sheet-header button {
+  padding: 4px 8px;
+  color: var(--sub);
+  font-size: 14px;
+}
+
+.sheet-body {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 0 8px 16px;
+}
+
+/* 目录条目 */
+
+.toc-item {
+  display: block;
+  width: 100%;
+  padding: 12px 10px;
+  text-align: left;
+  font-size: 14px;
+  color: var(--fg);
+  border-radius: 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.toc-item.active {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* 设置面板 */
+
+.settings-body {
+  padding: 0 16px 16px;
+}
+
+.setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.setting-row:last-child {
+  border-bottom: none;
+}
+
+.setting-label {
+  font-size: 14px;
+  color: var(--sub);
+}
+
+.stepper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.stepper button {
+  width: 44px;
+  height: 36px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--fg);
+}
+
+.stepper-value {
+  min-width: 36px;
+  text-align: center;
+  font-size: 15px;
+}
+
+.segmented {
+  display: flex;
+  gap: 8px;
+}
+
+.segmented button {
+  min-width: 48px;
+  height: 36px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--fg);
+}
+
+.segmented button.active {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.theme-swatch {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+}
+
+.theme-swatch.light {
+  background: #f6f5f2;
+}
+
+.theme-swatch.sepia {
+  background: #e8d9b8;
+}
+
+.theme-swatch.dark {
+  background: #2a2a2a;
+}
+
+.theme-swatch.active {
+  border-color: var(--accent);
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
