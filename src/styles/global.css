@@ -1,0 +1,210 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ---------- 三主题变量 ---------- */
+
+[data-theme='light'] {
+  --bg: #f6f5f2;
+  --panel: #ffffff;
+  --fg: #1f2937;
+  --sub: #6b7280;
+  --border: #e5e7eb;
+  --accent: #2563eb;
+  --mask: rgba(0, 0, 0, 0.35);
+  --reader-bg: #ffffff;
+  --reader-fg: #1f2937;
+}
+
+[data-theme='sepia'] {
+  --bg: #ece1c8;
+  --panel: #f5ecd9;
+  --fg: #5b4636;
+  --sub: #8c7357;
+  --border: #ddd0b3;
+  --accent: #b45309;
+  --mask: rgba(59, 42, 24, 0.4);
+  --reader-bg: #f5ecd9;
+  --reader-fg: #5b4636;
+}
+
+[data-theme='dark'] {
+  --bg: #101010;
+  --panel: #1e1e1e;
+  --fg: #d4d4d4;
+  --sub: #8a8a8a;
+  --border: #2e2e2e;
+  --accent: #60a5fa;
+  --mask: rgba(0, 0, 0, 0.6);
+  --reader-bg: #141414;
+  --reader-fg: #c9c9c9;
+}
+
+/* ---------- 基础 ---------- */
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Segoe UI', Roboto,
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* ---------- 书架页 ---------- */
+
+.shelf {
+  min-height: 100dvh;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: calc(env(safe-area-inset-top) + 12px) 16px calc(env(safe-area-inset-bottom) + 24px);
+}
+
+.shelf-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.shelf-header h1 {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.btn-primary {
+  height: 36px;
+  padding: 0 16px;
+  border-radius: 10px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 14px;
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+}
+
+.shelf-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
+  gap: 16px 12px;
+}
+
+.shelf-empty {
+  padding: 120px 24px 0;
+  text-align: center;
+  color: var(--sub);
+}
+
+.shelf-empty p {
+  font-size: 15px;
+  margin-top: 8px;
+}
+
+.shelf-empty-hint {
+  font-size: 12px;
+}
+
+/* ---------- 书卡 ---------- */
+
+.book-card {
+  position: relative;
+}
+
+.book-main {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  text-align: left;
+}
+
+.book-cover {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  overflow: hidden;
+  background: linear-gradient(145deg, var(--border), var(--panel));
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.book-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.book-cover-fallback {
+  font-family: Georgia, 'Noto Serif SC', 'Songti SC', SimSun, serif;
+  font-size: 34px;
+  color: var(--sub);
+}
+
+.book-progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  font-size: 11px;
+  text-align: center;
+  padding: 2px 0;
+}
+
+.book-title {
+  margin-top: 8px;
+  font-size: 13px;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  word-break: break-all;
+}
+
+.book-sub {
+  margin-top: 2px;
+  font-size: 11px;
+  color: var(--sub);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.book-delete {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  z-index: 2;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  color: var(--sub);
+  font-size: 11px;
+  line-height: 1;
+}
